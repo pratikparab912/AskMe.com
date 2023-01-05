@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row post">
+        <div class="col-md-1">
+          <app-vote-button [post]="post"></app-vote-button>
+        </div>
+        <div class="col-md-11">
+          <div class="col-8" style="margin-top: 40px;margin-left: 15px; padding-left: 0px;">
+            <span class="subquery-info">
+              <span class="subquery-text"><a class="posturl" routerLink="">{{post.subqueryName}}</a></span>
+              <span> . Posted by <a class="username" routerLink="/user/{{post.userName}}">{{post.userName}}</a></span>
+              <span> . {{post.duration}}</span>
+            </span>
+          </div>
+          <mat-card-content>
+            <hr />
+            <div class="post-title">
+              <a class="postname" class="post-title text-primary line-height: 1.5;">{{post.postName}}</a>
+            </div>
+            <div>
+              <p class="post-text" [innerHtml]="post.description"></p>
+            </div>
+            <hr />
+          </mat-card-content>
+          <div class="post-comment">
+            <form [formGroup]="commentForm" (ngSubmit)="postComment()" class="example-form">
+
+              <div class="form-group shadow-textarea">
+                <label for="exampleFormControlTextarea6">Give a Specific answer</label>
+                <textarea class="form-control z-depth-1" [formControlName]="'text'" id="exampleFormControlTextarea6"
+                  rows="3" placeholder="Write something here..."></textarea>
+              </div>
+
+              <div class="example-button-row" class="demo">
+                <button type="submit" mat-raised-button color="primary"
+                  class="justify-content-center d-flex align-items-center">Post Answer</button>
+              </div>
+             
+              <br>
+           
+            </form>
+          </div>
+          <div class="row alert alert-primary" role="alert" *ngFor="let comment of commentRes|paginate:{ itemsPerPage:6,currentPage:p};let i = index
+          ">
+            <div class="col">
+              <div class="d-flex">
+                <a routerLink="/user/comment.username">{{comment.userName}}</a><span><p>.   {{ comment.duration }}</p></span>
+              </div>
+              <div>
+                <hr>
+              </div>
+              <b>{{comment.text}}</b>
+            <br>
+              <a (click)="deleteComment(comment.id)" routerLink="/view-post/{{post.postId}}" *ngIf="deleteButton">Delete</a>
+            </div>
+          </div>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mt-3">
+      <app-post-sidebar-two></app-post-sidebar-two>
+      <br>
+     
+    </div>
+  </div>
+</div>
+<div class="col-md-3">
+</div>
